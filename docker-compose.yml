@@ -1,0 +1,32 @@
+version: "3.8"
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"       # AMQP protocol
+      - "15672:15672"     # Web management UI
+    environment:
+      RABBITMQ_DEFAULT_USER: user
+      RABBITMQ_DEFAULT_PASS: password
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+
+  publisher:
+    build:
+      context: .
+      dockerfile: dev.Dockerfile
+    command: dotnet run --project Publisher
+    ports:
+      - 5097:5097 
+
+  consumer:
+    build:
+        context: .
+        dockerfile: dev.Dockerfile
+    command: dotnet run --project Consumere
+    ports:
+      - 5098:5098 
+
+volumes:
+  rabbitmq_data:
