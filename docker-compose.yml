@@ -16,7 +16,9 @@ services:
     build:
       context: .
       dockerfile: dev.Dockerfile
-    command: dotnet run --project Publisher
+    depends_on:
+      - rabbitmq
+    command: ["./wait-for-it.sh", "rabbitmq", "5672", "dotnet", "run", "--project", "Publisher"]
     ports:
       - 5097:5097 
 
@@ -24,7 +26,9 @@ services:
     build:
         context: .
         dockerfile: dev.Dockerfile
-    command: dotnet run --project Consumere
+    depends_on:
+      - rabbitmq
+    command: ["./wait-for-it.sh", "rabbitmq", "5672", "dotnet", "run", "--project", "Consumere"]
     ports:
       - 5098:5098 
 

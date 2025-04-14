@@ -25,7 +25,7 @@ app.UseHttpsRedirection();
 
 app.UseAntiforgery();
 
-var factory = new ConnectionFactory { HostName = "localhost" };
+var factory = new ConnectionFactory { HostName = "rabbitmq", UserName = "user", Password = "password" };
 using var connection = await factory.CreateConnectionAsync();
 using var channel = await connection.CreateChannelAsync();
 
